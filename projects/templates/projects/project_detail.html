@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="project-header">
+    <h1>{{ project.title }}</h1>
+    <p>By {{ project.creator.get_full_name }}</p>
+    
+    <!-- Image Slider -->
+    <div class="project-slider">
+        {% for picture in project.pictures.all %}
+        <div class="slide {% if picture.is_featured %}active{% endif %}">
+            <img src="{{ picture.image.url }}" alt="{{ project.title }}">
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <!-- <div class="progress-bar" style="width: {{ project.progress }}%"></div> -->
+        <span>{{ project.progress|floatformat:0 }}% funded ({{ project.total_donations|floatformat:2 }} EGP of {{ project.total_target|floatformat:2 }} EGP)</span>
+    </div>
+    
+    <!-- Days Left -->
+    <p>{{ project.days_left }} days left</p>
+    
+    <!-- Action Buttons -->
+    <div class="project-actions">
+        <a href="{% url 'donate' project.pk %}" class="btn btn-primary">Donate</a>
+        {% if user == project.creator and project.can_be_cancelled %}
+        <form method="post" action="{% url 'project-cancel' project.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">Cancel Project</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+<div class="project-details">
+    <h2>Details</h2>
+    <p>{{ project.details }}</p>
+    
+    <div class="project-meta">
+        <span class="category">{{ project.category.name }}</span>
+        <div class="tags">
+            {% for tag in project.tags.all %}
+            <span class="tag">{{ tag.name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Rating -->
+    <div class="project-rating">
+        <h3>Rating: {{ average_rating|default:"Not rated yet" }}</h3>
+        {% if user.is_authenticated %}
+            {% if user_rating %}
+            <p>You rated this project: {{ user_rating.rating }} stars</p>
+            {% else %}
+            <form method="post" action="{% url 'add-rating' project.pk %}">
+                {% csrf_token %}
+                {{ rating_form }}
+                <button type="submit">Submit Rating</button>
+            </form>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<!-- Similar Projects -->
+<div class="similar-projects">
+    <h3>Similar Projects</h3>
+    <div class="projects-grid">
+        {% for project in similar_projects %}
+            {% include 'includes/project_card.html' with project=project %}
+        {% empty %}
+            <p>No similar projects found</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Comments Section -->
+<div class="comments-section">
+    <h3>Comments</h3>
+    {% if user.is_authenticated %}
+    <form method="post" action="{% url 'add-comment' project.pk %}">
+        {% csrf_token %}
+        {{ comment_form }}
+        <button type="submit">Post Comment</button>
+    </form>
+    {% endif %}
+    
+    <div class="comments-list">
+        {% for comment in project.comments.all %}
+            {% include 'includes/comment_item.html' with comment=comment %}
+        {% empty %}
+            <p>No comments yet</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
