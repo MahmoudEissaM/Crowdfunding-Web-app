@@ -69,23 +69,29 @@ def password_reset_request(request):
             associated_users = User.objects.filter(Q(email=data))
             if associated_users.exists():
                 for user in associated_users:
-                    subject = "Password Reset Requested"
+                    subject = "Password Reset Request"
                     email_template_name = "users/password_reset_email.html"
-                    c = {
-                        "email": user.email,
-                        'domain': request.META['HTTP_HOST'],
-                        'site_name': 'Crowdfunding',
-                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    context = {
                         "user": user,
+                        'domain': request.get_host(),
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                         'token': default_token_generator.make_token(user),
-                        'protocol': 'https' if request.is_secure() else 'http',
+                        'protocol': 'http' if not request.is_secure() else 'https',
                     }
-                    email = render_to_string(email_template_name, c)
+                    email = render_to_string(email_template_name, context)
                     try:
-                        send_mail(subject, email, 'admin@example.com', [user.email], fail_silently=False)
+                        send_mail(
+                            subject,
+                            email,
+                            'Crowdfunding Support <support@crowdfunding.com>',
+                            [user.email],
+                            fail_silently=False
+                        )
                     except BadHeaderError:
                         return HttpResponse('Invalid header found.')
-                    return redirect("/password_reset/done/")
+                    messages.success(request, "Password reset instructions have been sent to your email.")
+                    return redirect("password_reset_done")
+            messages.error(request, "No user found with this email address.")
     password_reset_form = PasswordResetForm()
     return render(request, "users/password_reset.html", {"form": password_reset_form})
 

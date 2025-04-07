@@ -166,12 +166,14 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 LOGIN_REDIRECT_URL = 'home'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
+# Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com' 
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'mahmoudessa8200@gmail.com'  
+EMAIL_HOST_USER = 'mahmoudessa8200@gmail.com'
 EMAIL_HOST_PASSWORD = 'fuxg hjek ohtg qmdu'
+DEFAULT_FROM_EMAIL = 'mahmoudessa8200@gmail.com'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -181,7 +183,8 @@ AUTH_USER_MODEL = 'users.User'
 
 # Site settings
 SITE_ID = 1
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Update this after running migrations
-SITE_DOMAIN = '127.0.0.1:4005'  # Match your runserver port
+SITE_DOMAIN = '127.0.0.1:4001'  # تأكد من أن هذا هو نفس المنفذ الذي تستخدمه
 SITE_NAME = 'Crowdfunding'
