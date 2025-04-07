@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center text-danger">Invalid Activation Link</h2>
+                <p class="text-center">
+                    The activation link you used is invalid or has expired.
+                    Please request a new activation link.
+                </p>
+                <div class="text-center mt-3">
+                    <a href="{% url 'register' %}" class="btn btn-primary">Register Again</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Crowdfunding</h1>
+    <p class="lead">Support projects you believe in and make dreams come true.</p>
+    {% if user.is_authenticated %}
+        <p>Welcome back, {{ user.first_name }}!</p>
+    {% else %}
+        <p>Join our community today!</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Get Started</a>
+    {% endif %}
+</div>
+{% endblock %}
