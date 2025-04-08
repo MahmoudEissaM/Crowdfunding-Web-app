@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+ 
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/project_form.css' %}">
+<div class="form-container">
+    <div class="form-header">
+        <h1><i class="fas fa-lightbulb"></i> {% if form.instance.pk %}Edit Project{% else %}Create New Project{% endif %}</h1>
+        <p class="form-subtitle">Bring your idea to life with our community</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="elegant-form">
+        {% csrf_token %}
+        
+        <!-- Main Project Info -->
+        <div class="form-section">
+            <div class="section-header">
+                <h2><i class="fas fa-info-circle"></i> Basic Information</h2>
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Project Title</label>
+                {{ form.title }}
+                <small class="form-hint">Choose a clear, descriptive name for your project</small>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.category.id_for_label }}">Category</label>
+                    {{ form.category }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.total_target.id_for_label }}">Funding Goal (EGP)</label>
+                    {{ form.total_target }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.details.id_for_label }}">Project Description</label>
+                {{ form.details }}
+                <small class="form-hint">Tell people about your project in detail</small>
+            </div>
+        </div>
+
+        <!-- Images Section -->
+        <div class="form-section">
+            <div class="section-header">
+                <h2><i class="fas fa-images"></i> Project Images</h2>
+            </div>
+            
+            <div class="form-group">
+                <label class="file-upload-label">
+                    <span class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                    <span class="upload-text">Upload Featured Image</span>
+                    {{ form.featured_image }}
+                    <span class="file-name" id="featured-image-name">No file chosen</span>
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label class="file-upload-label">
+                    <span class="upload-icon"><i class="fas fa-images"></i></span>
+                    <span class="upload-text">Additional Images (Up to 5)</span>
+                    <input type="file" name="images" multiple accept="image/*" id="id_images">
+                    <span class="file-name" id="additional-images-name">No files chosen</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Tags & Timeline -->
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.tags.id_for_label }}">Tags</label>
+                    {{ form.tags }}
+                    <small class="form-hint">Add relevant tags separated by commas</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.end_date.id_for_label }}">Campaign End Date</label>
+                    {{ form.end_date }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Section -->
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane"></i> {% if form.instance.pk %}Update Project{% else %}Create Project{% endif %}
+            </button>
+            <a href="{% if form.instance.pk %}{% url 'projects:project_detail' form.instance.pk %}{% else %}{% url 'home' %}{% endif %}" class="btn-cancel">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Update file name display for featured image
+    document.getElementById('id_featured_image').addEventListener('change', function(e) {
+        const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+        document.getElementById('featured-image-name').textContent = fileName;
+    });
+
+    // Update file name display for additional images
+    document.getElementById('id_images').addEventListener('change', function(e) {
+        const fileCount = e.target.files.length;
+        const fileName = fileCount > 0 ? `${fileCount} file${fileCount > 1 ? 's' : ''} chosen` : 'No files chosen';
+        document.getElementById('additional-images-name').textContent = fileName;
+    });
+});
+</script>
+{% endblock %}
