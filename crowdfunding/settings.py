@@ -135,11 +135,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 import os
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For production
 # Default primary key field type
 # https://docs.djangoproject.com/eيn/5.2/ref/settings/#default-auto-field
@@ -182,7 +183,7 @@ EMAIL_HOST_PASSWORD = 'xlto apfe vwwz ksda'
 DEFAULT_FROM_EMAIL = 'mahmoudessa8200@gmail.com'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Custom User Model
 AUTH_USER_MODEL = 'users.User'

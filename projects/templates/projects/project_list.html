@@ -1,134 +1,62 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block css %}
+
+
+
+{% block content %}
 <link rel="stylesheet" href="{% static 'css/project_list.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-{% endblock %}
-
-{% block content %}
 <div class="project-list-container">
     <!-- Hero Header -->
     <div class="hero-header animate__animated animate__fadeIn">
         <h1 class="gradient-text">Discover <span>Inspiring</span> Projects</h1>
         <p class="subtitle">Join our community of innovators and change-makers</p>
-        
-        <div class="search-container animate__animated animate__fadeInUp animate__delay-1s">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search projects...">
-                <button class="search-btn">Explore</button>
-            </div>
-            <div class="category-tags">
-                <span class="tag active">All</span>
-                <span class="tag">Environment</span>
-                <span class="tag">Technology</span>
-                <span class="tag">Education</span>
-                <span class="tag">Health</span>
-                <span class="tag">Arts</span>
-            </div>
-        </div>
     </div>
 
     <!-- Projects Grid -->
     <div class="projects-grid">
         {% for project in projects %}
-        <div class="project-card animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter|divisibleby:2|yesno:'0.2s,0.1s' }}">
+        <div class="project-card animate__animated animate__fadeInUp">
             <div class="card-image">
+                {% if project.image %}
                 <img src="{{ project.image.url }}" alt="{{ project.title }}">
-                <div class="category-badge" style="background: {{ project.category.color|default:'#6c5ce7' }}">
-                    {{ project.category }}
-                </div>
-                <div class="hover-overlay">
-                    <button class="quick-view-btn">
-                        <i class="far fa-eye"></i> Quick View
-                    </button>
-                </div>
+                {% else %}
+                <img src="{% static 'images/default-project.jpg' %}" alt="Default Image">
+                {% endif %}
             </div>
-            
             <div class="card-content">
-                <div class="project-meta">
-                    <div class="creator-avatar">
-                        <img src="{{ project.creator.profile.image.url }}" alt="{{ project.creator.get_full_name }}">
-                    </div>
-                    <div class="meta-info">
-                        <span class="creator">By {{ project.creator.get_full_name }}</span>
-                        <span class="location"><i class="fas fa-map-marker-alt"></i> {{ project.location }}</span>
-                    </div>
-                    <button class="save-btn">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                </div>
-                
                 <h3 class="project-title">{{ project.title }}</h3>
-                <p class="project-excerpt">{{ project.description|truncatechars:120 }}</p>
-                
+                <p class="project-excerpt">{{ project.details|truncatechars:100 }}</p>
                 <div class="progress-container">
-                    <div class="progress-bar" style="width: {{ project.progress }}%; background: {{ project.category.color|default:'#6c5ce7' }}"></div>
+                    <div class="progress-bar" style="width: {{ project.progress }}%;"></div>
                 </div>
-                
                 <div class="project-stats">
-                    <div class="stat">
-                        <div class="stat-icon" style="color: {{ project.category.color|default:'#6c5ce7' }}">
-                            <i class="fas fa-bullseye"></i>
-                        </div>
-                        <div class="stat-value">{{ project.progress }}%</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-icon" style="color: {{ project.category.color|default:'#6c5ce7' }}">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                        <div class="stat-value">{{ project.total_donations|floatformat:0 }} EGP</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-icon" style="color: {{ project.category.color|default:'#6c5ce7' }}">
-                            <i class="far fa-clock"></i>
-                        </div>
-                        <div class="stat-value">{{ project.days_left }} days</div>
-                    </div>
+                    <span class="stat"><i class="fas fa-coins"></i> {{ project.total_donations|floatformat:0 }} EGP</span>
+                    <span class="stat"><i class="far fa-clock"></i> {{ project.days_left }} days left</span>
                 </div>
-            </div>
-            
-            <div class="card-footer">
-                <a href="{% url 'projects:project-detail' project.id %}" class="view-btn pulse-on-hover">
-                    <i class="fas fa-rocket"></i> Support Project
-                </a>
+                <a href="{% url 'projects:project-detail' project.pk %}" class="btn btn-primary">View Project</a>
             </div>
         </div>
         {% empty %}
-        <div class="no-projects animate__animated animate__fadeIn">
-            <div class="no-projects-illustration">
-                <img src="{% static 'images/empty-state.svg' %}" alt="No projects">
-            </div>
-            <h3>No projects found</h3>
-            <p>Be the first to create something amazing!</p>
-            <a href="{% url 'projects:project-create' %}" class="create-btn">
-                <i class="fas fa-plus"></i> Start a Project
-            </a>
-        </div>
+        <p>No projects found.</p>
         {% endfor %}
     </div>
-    
-    <!-- Floating Action Button -->
-    <a href="{% url 'projects:project-create' %}" class="fab animate__animated animate__bounceInUp animate__delay-2s">
-        <i class="fas fa-plus"></i>
-    </a>
-    
+
+    <!-- Pagination -->
     {% if projects.has_other_pages %}
-    <div class="pagination animate__animated animate__fadeInUp">
+    <div class="pagination">
         {% if projects.has_previous %}
         <a href="?page={{ projects.previous_page_number }}" class="page-link">
             <i class="fas fa-chevron-left"></i>
         </a>
         {% endif %}
-        
         {% for i in projects.paginator.page_range %}
         <a href="?page={{ i }}" class="page-link {% if projects.number == i %}active{% endif %}">
             {{ i }}
         </a>
         {% endfor %}
-        
         {% if projects.has_next %}
         <a href="?page={{ projects.next_page_number }}" class="page-link">
             <i class="fas fa-chevron-right"></i>
@@ -155,44 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
             opacity: 0,
             duration: 0.8,
             ease: "power2.out"
-        });
-    });
-
-    // Hover animations
-    const cards = document.querySelectorAll('.project-card');
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            gsap.to(card, {
-                y: -5,
-                boxShadow: '0 15px 30px rgba(0,0,0,0.15)',
-                duration: 0.3
-            });
-        });
-        card.addEventListener('mouseleave', () => {
-            gsap.to(card, {
-                y: 0,
-                boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
-                duration: 0.3
-            });
-        });
-    });
-
-    // Pulse animation for buttons
-    const buttons = document.querySelectorAll('.pulse-on-hover');
-    buttons.forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-            gsap.to(btn, {
-                scale: 1.05,
-                boxShadow: '0 0 15px rgba(0,0,0,0.2)',
-                duration: 0.3
-            });
-        });
-        btn.addEventListener('mouseleave', () => {
-            gsap.to(btn, {
-                scale: 1,
-                boxShadow: 'none',
-                duration: 0.3
-            });
         });
     });
 });

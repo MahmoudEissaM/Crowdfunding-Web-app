@@ -24,4 +24,5 @@ urlpatterns = [
     path('<int:pk>/rate/', add_rating, name='add-rating'),
     # path('<int:pk>/report/', report_project, name='report-project'),
     path('<int:pk>/donate/', donate, name='donate'),
-]+ static ( settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]) \
+  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
