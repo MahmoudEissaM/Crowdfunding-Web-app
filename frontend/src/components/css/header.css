@@ -1,0 +1,62 @@
+:root
+{
+    /* darkgreen: #0e4f30; */
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #0e4f30;
+    color: white;
+}
+
+.logo a {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.auth {
+    display: flex;
+    gap: 10px;
+}
+
+.auth .login,
+.auth .signup {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.auth .signup {
+    background-color: white;
+    color: #007bff;
+}
+
+.auth .login:hover,
+.auth .signup:hover {
+    opacity: 0.8;
+}

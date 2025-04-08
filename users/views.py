@@ -15,6 +15,9 @@ from .models import User
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import Project, Category
 
 def home(request):
     return render(request, 'users/home.html')
@@ -118,3 +121,27 @@ def dashboard(request):
     return render(request, 'users/dashboard.html', {
         'user': request.user
     })
+
+@api_view(['GET'])
+def top_rated_projects(request):
+    projects = Project.objects.filter(is_running=True).order_by('-rating')[:5]
+    data = [{"id": p.id, "title": p.title, "description": p.description} for p in projects]
+    return Response(data)
+
+@api_view(['GET'])
+def latest_projects(request):
+    projects = Project.objects.order_by('-created_at')[:5]
+    data = [{"id": p.id, "title": p.title} for p in projects]
+    return Response(data)
+
+@api_view(['GET'])
+def featured_projects(request):
+    projects = Project.objects.filter(is_featured=True)[:5]
+    data = [{"id": p.id, "title": p.title} for p in projects]
+    return Response(data)
+
+@api_view(['GET'])
+def categories(request):
+    categories = Category.objects.all()
+    data = [{"id": c.id, "name": c.name} for c in categories]
+    return Response(data)
