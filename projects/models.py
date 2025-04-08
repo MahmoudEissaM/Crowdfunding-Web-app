@@ -24,6 +24,7 @@ class Project(models.Model):
     details = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     tags = models.ManyToManyField(Tag)
+    related_projects = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='linked_projects')
     total_target = models.DecimalField(
         max_digits=12, 
         decimal_places=2,
