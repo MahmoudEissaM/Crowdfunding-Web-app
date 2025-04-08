@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import path
 from .views import (
     ProjectListView, ProjectDetailView,
@@ -8,6 +9,9 @@ from .views import (
     donate
     # , report_project
 )
+from django.conf.urls.static import static
+
+app_name = 'projects'  # ✅ Add this line!
 
 urlpatterns = [
     path('', ProjectListView.as_view(), name='project-list'),
@@ -20,4 +24,4 @@ urlpatterns = [
     path('<int:pk>/rate/', add_rating, name='add-rating'),
     # path('<int:pk>/report/', report_project, name='report-project'),
     path('<int:pk>/donate/', donate, name='donate'),
-]
+]+ static ( settings.STATIC_URL, document_root=settings.STATIC_ROOT)

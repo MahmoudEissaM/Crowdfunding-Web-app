@@ -94,7 +94,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         return response
     
     def get_success_url(self):
-        return reverse_lazy('project-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('projects:project-detail', kwargs={'pk': self.object.pk})
 
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Project
@@ -105,11 +105,11 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
         project = self.get_object()
         if project.creator != request.user:
             messages.error(request, "You can't edit this project")
-            return redirect('project-detail', pk=project.pk)
+            return redirect('projects:project-detail', pk=project.pk)
         return super().dispatch(request, *args, **kwargs)
     
     def get_success_url(self):
-        return reverse_lazy('project-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('projects:project-detail', kwargs={'pk': self.object.pk})
 
 class ProjectCancelView(LoginRequiredMixin, View):
     def post(self, request, pk):
@@ -117,16 +117,16 @@ class ProjectCancelView(LoginRequiredMixin, View):
         
         if project.creator != request.user:
             messages.error(request, "You can't cancel this project")
-            return redirect('project-detail', pk=project.pk)
+            return redirect('projects:project-detail', pk=project.pk)
         
         if not project.can_be_cancelled():
             messages.error(request, "Project can't be cancelled as it has reached 25% of target")
-            return redirect('project-detail', pk=project.pk)
+            return redirect('projects:project-detail', pk=project.pk)
         
         project.is_cancelled = True
         project.save()
         messages.success(request, "Project cancelled successfully")
-        return redirect('project-detail', pk=project.pk)
+        return redirect('projects:project-detail', pk=project.pk)
 
 # Add similar views for comments, ratings, reports following the same pattern
 def add_comment(request, pk):
@@ -140,7 +140,7 @@ def add_comment(request, pk):
             comment.user = request.user
             comment.save()
             messages.success(request, "Comment added successfully!")
-            return redirect('project-detail', pk=project.pk)
+            return redirect('projects:project-detail', pk=project.pk)
     else:
         form = ProjectCommentForm()
     
@@ -157,7 +157,7 @@ def add_rating(request, pk):
             rating.user = request.user
             rating.save()
             messages.success(request, "Rating added successfully!")
-            return redirect('project-detail', pk=project.pk)
+            return redirect('projects:project-detail', pk=project.pk)
     else:
         form = ProjectRatingForm()
     
@@ -167,4 +167,8 @@ def add_rating(request, pk):
 def donate(request, pk):
     project = get_object_or_404(Project, pk=pk)
     # Add donation logic here
-    return redirect('project-detail', pk=pk)
+    return redirect('projects:project-detail', pk=pk)
+
+def project_list(request):
+    projects = Project.objects.all()  # Fetch all projects from the database
+    return render(request, 'projects/project_list.html', {'projects': projects})

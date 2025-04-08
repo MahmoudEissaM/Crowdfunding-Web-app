@@ -1,99 +1,194 @@
 {% extends 'base.html' %}
+{% load static %}
+
+ 
+
 
 {% block content %}
-<div class="project-header">
-    <h1>{{ project.title }}</h1>
-    <p>By {{ project.creator.get_full_name }}</p>
-    
-    <!-- Image Slider -->
-    <div class="project-slider">
-        {% for picture in project.pictures.all %}
-        <div class="slide {% if picture.is_featured %}active{% endif %}">
-            <img src="{{ picture.image.url }}" alt="{{ project.title }}">
+<link rel="stylesheet" href="/static/css/project_detail.css">
+<div class="project-container">
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="project-meta">
+            <span class="project-category">{{ project.category.name }}</span>
+            <span class="project-creator">By {{ project.creator.get_full_name }}</span>
         </div>
-        {% endfor %}
-    </div>
-    
-    <!-- Progress Bar -->
-    <div class="progress-container">
-        <!-- <div class="progress-bar" style="width: {{ project.progress }}%"></div> -->
-        <span>{{ project.progress|floatformat:0 }}% funded ({{ project.total_donations|floatformat:2 }} EGP of {{ project.total_target|floatformat:2 }} EGP)</span>
-    </div>
-    
-    <!-- Days Left -->
-    <p>{{ project.days_left }} days left</p>
-    
-    <!-- Action Buttons -->
-    <div class="project-actions">
-        <a href="{% url 'donate' project.pk %}" class="btn btn-primary">Donate</a>
-        {% if user == project.creator and project.can_be_cancelled %}
-        <form method="post" action="{% url 'project-cancel' project.pk %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-warning">Cancel Project</button>
-        </form>
-        {% endif %}
-    </div>
-</div>
+        <h1 class="project-title">{{ project.title }}</h1>
+        
+        <!-- Main Project Image -->
+        <div class="project-image-container">
+            {% with project.pictures.all|first as first_image %}
+            <img src="{% if first_image %}{{ first_image.image.url }}{% else %}{% static 'images/default-project.jpg' %}{% endif %}" 
+                 alt="{{ project.title }}" class="project-main-image">
+            {% endwith %}
+        </div>
+    </header>
 
-<div class="project-details">
-    <h2>Details</h2>
-    <p>{{ project.details }}</p>
-    
-    <div class="project-meta">
-        <span class="category">{{ project.category.name }}</span>
-        <div class="tags">
-            {% for tag in project.tags.all %}
-            <span class="tag">{{ tag.name }}</span>
-            {% endfor %}
+    <!-- Funding Section -->
+    <section class="funding-section">
+        <div class="funding-progress">
+            <div class="progress-container">
+                <div class="progress-bar" style="width: {{ project.progress }}%"></div>
+            </div>
+            <div class="funding-stats">
+                <div class="funding-raised">
+                    <span class="amount">{{ project.total_donations|floatformat:2 }} EGP</span>
+                    <span class="label">raised</span>
+                </div>
+                <div class="funding-goal">
+                    <span class="amount">{{ project.total_target|floatformat:2 }} EGP</span>
+                    <span class="label">goal</span>
+                </div>
+                <div class="funding-percentage">
+                    <span class="percentage">{{ project.progress|floatformat:0 }}%</span>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <!-- Rating -->
-    <div class="project-rating">
-        <h3>Rating: {{ average_rating|default:"Not rated yet" }}</h3>
-        {% if user.is_authenticated %}
-            {% if user_rating %}
-            <p>You rated this project: {{ user_rating.rating }} stars</p>
-            {% else %}
-            <form method="post" action="{% url 'add-rating' project.pk %}">
+        
+        <div class="project-timeframe">
+            <i class="far fa-clock"></i>
+            <span>{{ project.days_left }} days remaining</span>
+        </div>
+        
+        <div class="project-actions">
+            <a href="{% url 'projects:donate' project.pk %}" class="btn btn-donate">
+                <i class="fas fa-donate"></i> Donate Now
+            </a>
+            
+            {% if user == project.creator and project.can_be_cancelled %}
+            <form method="post" action="{% url 'projects:project-cancel' project.pk %}" class="cancel-form">
                 {% csrf_token %}
-                {{ rating_form }}
-                <button type="submit">Submit Rating</button>
+                <button type="submit" class="btn btn-cancel">
+                    <i class="fas fa-times"></i> Cancel Project
+                </button>
             </form>
             {% endif %}
+        </div>
+    </section>
+
+    <!-- Project Details -->
+    <section class="project-details">
+        <h2 class="section-title">
+            <i class="fas fa-info-circle"></i> Project Details
+        </h2>
+        <div class="project-description">
+            {{ project.details|linebreaks }}
+        </div>
+        
+        {% if project.tags.all %}
+        <div class="project-tags">
+            <h3 class="tags-title">Tags:</h3>
+            <div class="tags-container">
+                {% for tag in project.tags.all %}
+                <span class="tag">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
         {% endif %}
-    </div>
-</div>
+    </section>
 
-<!-- Similar Projects -->
-<div class="similar-projects">
-    <h3>Similar Projects</h3>
-    <div class="projects-grid">
-        {% for project in similar_projects %}
-            {% include 'includes/project_card.html' with project=project %}
-        {% empty %}
-            <p>No similar projects found</p>
-        {% endfor %}
-    </div>
-</div>
+    <!-- Rating Section -->
+    <section class="rating-section">
+        <h2 class="section-title">
+            <i class="fas fa-star"></i> Project Ratings
+        </h2>
+        
+        <div class="rating-summary">
+            <div class="average-rating">
+                <span class="rating-label">Average Rating:</span>
+                <div class="stars">
+                    {% with average_rating|default:0 as avg %}
+                    {% for i in "12345" %}
+                        <i class="fas fa-star {% if forloop.counter <= avg|add:0 %}active{% endif %}"></i>
+                    {% endfor %}
+                    <span class="rating-value">({{ average_rating|default:"Not rated yet" }}/5)</span>
+                    {% endwith %}
+                </div>
+            </div>
+            
+            {% if user.is_authenticated %}
+            <div class="user-rating">
+                {% if user_rating %}
+                <div class="your-rating">
+                    <span class="rating-label">Your Rating:</span>
+                    <div class="stars">
+                        {% for i in "12345" %}
+                            <i class="fas fa-star {% if forloop.counter <= user_rating.rating %}active{% endif %}"></i>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <form method="post" action="{% url 'add-rating' project.pk %}" class="rating-form">
+                    {% csrf_token %}
+                    <div class="rating-input">
+                        <span class="rating-label">Rate this project:</span>
+                        <div class="star-rating">
+                            {% for i in "54321" %}
+                            <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}"/>
+                            <label for="star{{ i }}" title="{{ i }} stars"></label>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class="btn btn-rate">Submit Rating</button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </section>
 
-<!-- Comments Section -->
-<div class="comments-section">
-    <h3>Comments</h3>
-    {% if user.is_authenticated %}
-    <form method="post" action="{% url 'add-comment' project.pk %}">
-        {% csrf_token %}
-        {{ comment_form }}
-        <button type="submit">Post Comment</button>
-    </form>
-    {% endif %}
-    
-    <div class="comments-list">
-        {% for comment in project.comments.all %}
-            {% include 'includes/comment_item.html' with comment=comment %}
-        {% empty %}
-            <p>No comments yet</p>
-        {% endfor %}
-    </div>
+    <!-- Comments Section -->
+    <section class="comments-section">
+        <h2 class="section-title">
+            <i class="fas fa-comments"></i> Comments
+        </h2>
+        
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'add-comment' project.pk %}" class="comment-form">
+            {% csrf_token %}
+            <div class="comment-input">
+                <textarea name="text" placeholder="Share your thoughts about this project..." required></textarea>
+                <button type="submit" class="btn btn-comment">
+                    <i class="fas fa-paper-plane"></i> Post Comment
+                </button>
+            </div>
+        </form>
+        {% else %}
+        <div class="login-prompt">
+            <a href="{% url 'login' %}?next={{ request.path %}" class="btn btn-login">
+                <i class="fas fa-sign-in-alt"></i> Log in to comment
+            </a>
+        </div>
+        {% endif %}
+        
+        <div class="comments-list">
+            {% for comment in project.comments.all %}
+                {% include 'includes/comment_item.html' with comment=comment %}
+            {% empty %}
+                <div class="no-comments">
+                    <i class="far fa-comment"></i>
+                    <p>No comments yet. Be the first to share your thoughts!</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Similar Projects -->
+    <section class="similar-projects">
+        <h2 class="section-title">
+            <i class="fas fa-lightbulb"></i> Similar Projects
+        </h2>
+        
+        <div class="projects-grid">
+            {% for project in similar_projects %}
+                {% include 'includes/project_card.html' with project=project %}
+            {% empty %}
+                <div class="no-projects">
+                    <i class="fas fa-search"></i>
+                    <p>No similar projects found at the moment.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
 </div>
 {% endblock %}
