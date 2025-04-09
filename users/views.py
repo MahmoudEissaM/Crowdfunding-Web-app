@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -121,27 +121,3 @@ def dashboard(request):
     return render(request, 'users/dashboard.html', {
         'user': request.user
     })
-
-@api_view(['GET'])
-def top_rated_projects(request):
-    projects = Project.objects.filter(is_running=True).order_by('-rating')[:5]
-    data = [{"id": p.id, "title": p.title, "description": p.description} for p in projects]
-    return Response(data)
-
-@api_view(['GET'])
-def latest_projects(request):
-    projects = Project.objects.order_by('-created_at')[:5]
-    data = [{"id": p.id, "title": p.title} for p in projects]
-    return Response(data)
-
-@api_view(['GET'])
-def featured_projects(request):
-    projects = Project.objects.filter(is_featured=True)[:5]
-    data = [{"id": p.id, "title": p.title} for p in projects]
-    return Response(data)
-
-@api_view(['GET'])
-def categories(request):
-    categories = Category.objects.all()
-    data = [{"id": c.id, "name": c.name} for c in categories]
-    return Response(data)

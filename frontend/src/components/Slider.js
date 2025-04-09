@@ -31,7 +31,7 @@ const Slider = () => {
             {projects.length > 0 && (
                 <div className="slide">
                     <img
-                        src={`http://127.0.0.1:8000/media/${projects[currentIndex].image_url}`} // Prepend media URL
+                        src={`http://127.0.0.1:8000/media/home_pic/${projects[currentIndex].image_url}`} 
                         alt={projects[currentIndex].title}
                         className="slide-image"
                     />
