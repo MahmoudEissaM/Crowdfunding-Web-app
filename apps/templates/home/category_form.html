@@ -1,0 +1,42 @@
+{% extends 'layouts/base.html' %} {% block title %} Add Category {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} {% block body_class %}
+forms-sections {% endblock body_class %} {% block content %}
+{% comment %} {% include "includes/navigation-light.html" %} {% endcomment %}
+
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header">
+                    <h3 class="text-center">Add New Category</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'add_category' %}" class="text-center" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Category Name</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <div class="text-danger">
+                                    {{ form.name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn bg-gradient-primary">Save Category</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<script src="/static/assets/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+
+{% endblock javascripts %}

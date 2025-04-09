@@ -1,0 +1,334 @@
+<style>
+  .search-container input {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border: 2px solid #2196F3;
+    border-right: none;
+    padding: 8px 15px;
+    width: 300px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .search-container input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(33, 150, 243, 0.3);
+  }
+
+  .search-container button {
+    float: right;
+    background: #2196F3;
+    border: 2px solid #2196F3;
+    border-left: none;
+    cursor: pointer;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+  }
+
+  .search-container button:hover {
+    background: #1976D2;
+    border-color: #1976D2;
+  }
+
+  .search-container button i {
+    color: white;
+  }
+
+  .navbar {
+    background: rgba(0, 0, 0, 0.95) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff !important;
+  }
+
+  .nav-link {
+    font-weight: 500;
+    color: #fff !important;
+    transition: all 0.3s ease;
+  }
+
+  .nav-link:hover {
+    color: #ccc !important;
+  }
+
+  .dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    background: #000;
+  }
+
+  .dropdown-item {
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    color: #fff !important;
+  }
+
+  .dropdown-item:hover {
+    background: #333;
+    color: #fff !important;
+  }
+
+  .dropdown-header {
+    color: #fff !important;
+  }
+
+  .text-dark {
+    color: #fff !important;
+  }
+
+  .dropdown-menu .text-dark {
+    color: #fff !important;
+  }
+
+  .dropdown-menu h6.text-dark {
+    color: #fff !important;
+  }
+
+  .text-gradient.text-primary {
+    background-image: none !important;
+    color: #fff !important;
+  }
+
+  .text-gradient {
+    background-image: none !important;
+    color: #fff !important;
+  }
+
+  .navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+
+  .navbar-toggler-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #fff;
+    margin: 0.5rem 0;
+    transition: all 0.3s ease;
+  }
+
+  .btn {
+    background: #000 !important;
+    color: #fff !important;
+    border: none !important;
+  }
+
+  .btn:hover {
+    background: #333 !important;
+    color: #fff !important;
+  }
+
+  .btn-primary {
+    background: #000 !important;
+    border: none !important;
+  }
+
+  .btn-primary:hover {
+    background: #333 !important;
+  }
+
+  .bg-gradient-primary {
+    background: #000 !important;
+  }
+
+  .bg-gradient-primary:hover {
+    background: #333 !important;
+  }
+
+  .btn.bg-gradient-primary {
+    background: #000 !important;
+  }
+
+  .btn.bg-gradient-primary:hover {
+    background: #333 !important;
+  }
+
+  .btn-outline-primary {
+    border-color: #000 !important;
+    color: #000 !important;
+  }
+
+  .btn-outline-primary:hover {
+    background: #000 !important;
+    color: #fff !important;
+  }
+</style>
+
+<div class="container-fluid position-sticky z-index-sticky top-0 p-0">
+  <div class="row m-0">
+    <div class="col-12 p-0">
+      <nav
+        class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-fixed shadow position-absolute py-2 start-0 end-0"
+      >
+        <div class="container-fluid">
+          <a class="navbar-brand font-weight-bolder ms-sm-3" href="{% url 'home' %}" rel="tooltip" data-placement="bottom">
+            Crowdfunding
+          </a>
+
+          <button
+            class="navbar-toggler shadow-none ms-2"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navigation"
+            aria-controls="navigation"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon mt-2">
+              <span class="navbar-toggler-bar bar1"></span>
+              <span class="navbar-toggler-bar bar2"></span>
+              <span class="navbar-toggler-bar bar3"></span>
+            </span>
+          </button>
+
+          <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0" id="navigation">
+            <ul class="navbar-nav navbar-nav-hover ms-lg-12 ps-lg-5 w-100 align-items-center">
+              <li class="nav-item dropdown dropdown-hover mx-2">
+                <a
+                  class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center"
+                  id="dropdownMenuBlocks"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Categories
+                  <img
+                    src="/static/assets/img/down-arrow-dark.svg"
+                    alt="down-arrow"
+                    class="arrow ms-1"
+                  />
+                </a>
+                <!-- Catogries Dropdown Window -->
+                <ul
+                  class="dropdown-menu dropdown-menu-animation dropdown-lg dropdown-lg-responsive p-3 border-radius-lg mt-0 mt-lg-3"
+                  aria-labelledby="dropdownMenuBlocks"
+                >
+                  <div class="d-none d-lg-block">
+
+                    <li class="nav-item dropdown dropdown-hover dropdown-subitem">
+                      <a class="dropdown-item py-2 ps-3 border-radius-md" href="{% url 'all_projects' %}">
+                        <div class="d-flex">
+                          <div class="w-100 d-flex align-items-center justify-content-between">
+                            <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
+                              All
+                            </h6>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item dropdown dropdown-hover dropdown-subitem">
+                      <a class="dropdown-item py-2 ps-3 border-radius-md" href="{% url 'featured_projects' %}">
+                        <div class="d-flex">
+                          <div class="w-100 d-flex align-items-center justify-content-between">
+                            <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
+                              Featured
+                            </h6>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    {%for category in all_categories%}
+                    <li class="nav-item dropdown dropdown-hover dropdown-subitem">
+                      <a class="dropdown-item py-2 ps-3 border-radius-md" href="{% url 'get_category' category.id %}">
+                        <div class="d-flex">
+                          <div class="w-100 d-flex align-items-center justify-content-between">
+                            <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
+                              {{ category.name|title }}
+                            </h6>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    {%empty%}
+                    <h6>No category Found</h6>
+                    {%endfor%}
+                  </div>
+                </ul>
+              </li>
+
+              <!-- Search  -->
+              <li class="nav-item ms-lg-auto">
+                <form class="search-container" action="{% url 'search-result' %}">
+                  <input class="bg-transparent" type="search" placeholder="Search.." name="search" required>
+                  <button type="submit"><i class="fa fa-search" style="color:rgb(164, 164, 164);"></i></button>
+                </form>
+              </li>
+
+              {% if 'user_id' in request.session %}
+              <li class="nav-item dropdown ms-lg-auto">
+                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="{{ user.profile_img.url }}" alt="profile" style="width: 30px; height: 30px;" class="d-inline-block align-text-top rounded-circle"/>
+                  <p class="m-0 mx-2">{{user.first_name|title}}</p>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-light " aria-labelledby="navbarDarkDropdownMenuLink">
+                  <li class="nav-item ms-lg-auto">
+                    <a class="nav-link nav-link-icon me-2 " href="{% url 'profile'  %}">
+                      <i class="fa-solid fa-user me-1"></i>
+                      <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profile">
+                      Profile
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item ms-lg-auto">
+                    <a class="nav-link nav-link-icon me-2" href="{% url 'logout' %}">
+                      <i class="fa fa-sign-out me-1"></i>
+                      <p
+                        class="d-inline text-sm z-index-1 font-weight-bold"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        title="Logout"
+                      >
+                        Logout
+                      </p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              {% else %}
+              <li class="nav-item ms-lg-auto d-flex">
+                <a class="nav-link nav-link-icon me-2" href="{% url 'register' %}">
+                  <p
+                    class="d-inline text-sm z-index-1 font-weight-bold"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title=" Sign Up"
+                  >
+                    Sign Up
+                  </p>
+                </a>
+                <a class="nav-link nav-link-icon me-2" href="{% url 'login' %}">
+                  <p
+                    class="d-inline text-sm z-index-1 font-weight-bold"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Sign In"
+                  >
+                  Sign In
+                  </p>
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>
