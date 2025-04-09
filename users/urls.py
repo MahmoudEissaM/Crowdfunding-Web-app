@@ -23,4 +23,7 @@ urlpatterns = [
          ),
          name='password_reset_complete'),
     path('dashboard/', views.dashboard, name='dashboard'),
+
+    path('profile/', views.profile, name='profile'),
+    path('profile/update/', views.update_profile, name='profile_update'),
 ]

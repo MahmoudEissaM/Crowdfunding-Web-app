@@ -16,6 +16,30 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+
+@login_required
+def profile(request):
+    return render(request, 'users/profile.html')
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+
+        user = request.user
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.save()
+
+        messages.success(request, 'Your profile has been updated successfully!')
+        return redirect('profile') 
+
+    return render(request, 'users/profile.html')
+
+
 def home(request):
     return render(request, 'users/home.html')
 
