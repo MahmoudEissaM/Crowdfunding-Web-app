@@ -32,9 +32,17 @@ A full-stack crowdfunding platform built with **Django** and **React**. Users ca
 ```bash
 git clone https://github.com/MahmoudEissaM/Crowdfunding-Web-app
 cd Crowdfunding-Web-app
+```
+### 2. Backend Setup (Django)
+
+```bash
 python -m venv env
 source env/bin/activate 
 pip install -r requirements.txt
+```
+### 3. Apply Migrations & Run the Development Server
+
+```bash
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver #Check port's availability
