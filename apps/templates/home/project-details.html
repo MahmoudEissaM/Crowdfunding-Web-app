@@ -8,13 +8,13 @@
 <link rel="stylesheet" href="../../static/assets/css/rate.css">
 <style>
   :root {
-    --primary-color: #2557a7;
-    --primary-dark: #1a3f7d;
-    --accent-color: #14a800;
-    --text-dark: #333;
-    --text-light: #666;
-    --background-light: #f8f9fa;
-    --shadow-color: rgba(37, 87, 167, 0.1);
+    --primary-color: #00796b;
+    --primary-dark: #004d40;
+    --accent-color: #26a69a;
+    --text-dark: #263238;
+    --text-light: #eceff1;
+    --background-light: #f5f5f5;
+    --shadow-color: rgba(0, 121, 107, 0.1);
   }
 
   .container {
@@ -193,6 +193,55 @@
     background: var(--primary-dark);
   }
 
+  /* Reply Styles */
+  .reply-form {
+    margin-top: 0.5rem;
+  }
+
+  .reply-form .input-group {
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .reply-form .form-control {
+    border: 1px solid #e0e0e0;
+    border-right: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .reply-form .btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .reply-form .btn:hover {
+    background: var(--primary-dark);
+  }
+
+  .btn-link.text-danger {
+    color: var(--danger-color) !important;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .btn-link.text-danger:hover {
+    color: var(--danger-dark) !important;
+    text-decoration: underline;
+  }
+
+  .avatar-xs {
+    width: 24px;
+    height: 24px;
+  }
+
+  .fs-sm {
+    font-size: 0.9rem;
+  }
+
   .related-projects {
     margin-top: 3rem;
   }
@@ -334,12 +383,57 @@
                       <h6 class="mb-0">{{ comment.user.first_name }} {{ comment.user.last_name }}</h6>
                       <small class="text-muted">{{ comment.created_at|date:"M d, Y" }}</small>
                     </div>
+                    {% if user != NULL %}
+                    <div class="ms-auto">
+                      <button class="btn btn-link text-danger btn-sm p-0" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#replyForm{{ comment.id }}" aria-expanded="false">
+                        <i class="fa-solid fa-reply me-1"></i>Reply
+                      </button>
+                      <form action="{% url 'create_comment_report' comment.id %}" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <button class="btn btn-link text-danger btn-sm p-0 ms-2">
+                          <i class="fa-solid fa-flag me-1"></i>Report
+                        </button>
+                      </form>
+                    </div>
+                    {% endif %}
                   </div>
                   <p class="mb-2">{{ comment.comment }}</p>
+
+                  <!-- Replies for this comment -->
+                  {% for reply in replies %}
+                    {% if reply.comment.id == comment.id %}
+                    <div class="ms-4 mb-2">
+                      <div class="d-flex align-items-center">
+                        <img src="{{ reply.user.profile_img.url }}" alt="user"
+                          class="avatar avatar-xs rounded-circle me-2">
+                        <div>
+                          <h6 class="mb-0 fs-sm">{{ reply.user.first_name }} {{ reply.user.last_name }}</h6>
+                          <small class="text-muted">{{ reply.created_at|date:"M d, Y" }}</small>
+                        </div>
+                      </div>
+                      <p class="mb-0 ms-4">{{ reply.reply }}</p>
+                    </div>
+                    {% endif %}
+                  {% endfor %}
+
+                  <!-- Reply Form -->
+                  {% if user != NULL %}
+                  <div class="collapse ms-4 mt-2" id="replyForm{{ comment.id }}">
+                    <form method="post" action="{% url 'create_comment_reply' comment.id %}" class="reply-form">
+                      {% csrf_token %}
+                      <div class="input-group">
+                        <input type="text" name="reply" class="form-control form-control-sm" placeholder="Write a reply...">
+                        <button type="submit" class="btn btn-sm btn-primary">Reply</button>
+                      </div>
+                    </form>
+                  </div>
+                  {% endif %}
                 </li>
                 {% endfor %}
               </ul>
 
+              {% if user != NULL %}
               <div class="comment-form">
                 <form method="post" action="{% url 'create_comment' project.id %}">
                   {% csrf_token %}
@@ -347,6 +441,7 @@
                   <button type="submit" class="btn">Comment</button>
                 </form>
               </div>
+              {% endif %}
             </div>
           </div>
 

@@ -283,28 +283,25 @@ def deleteAccount(request):
                 form = DeleteAccountForm( request.POST)
                 if form.is_valid():
                     password = form.cleaned_data['password']
-                    encryptpassword=make_password(password)
                     try:
                         user = Register.objects.get(id=request.session['user_id'])
                     except (ObjectDoesNotExist):
                         user = None  
                         return redirect('login')
                     if user is not None:
-                        if user.password == encryptpassword :
+                        if user.check_password(password):
                             user.delete()
                             del request.session['user_id']
-                            return redirect('login' )
-                        else :
-                            msg='password not correct'
+                            return redirect('login')
+                        else:
+                            msg = 'password not correct'
                             return render(request=request, template_name="accounts/Delete_account.html", context={"form":form ,"msg":msg , "user":user})
-
                 else:
-                    user=getUser(request)
+                    user = getUser(request)
                     return render(request=request, template_name="accounts/Delete_account.html", context={"form":form , "user":user})
-
             else:
                 form = DeleteAccountForm()
-                user=getUser(request)
+                user = getUser(request)
                 return render(request=request, template_name="accounts/Delete_account.html", context={"form":form , "user":user})
     else:
         return redirect('login')
