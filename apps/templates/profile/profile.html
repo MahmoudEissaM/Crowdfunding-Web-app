@@ -112,7 +112,7 @@
   }
 
   .project-title {
-    color: #2557a7;
+    color: var(--primary-color);
     font-weight: 600;
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
@@ -128,7 +128,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #2557a7;
+    color: var(--primary-color);
     font-weight: 500;
   }
 </style>
@@ -249,7 +249,7 @@
                                 {% for donation in donations%}
                                 <tr>
                                     <td class="px-5 py-3">
-                                        <a href="{% url 'show_project' donation.project_id %}" class="text-primary">
+                                        <a href="{% url 'show_project' donation.project_id %}" style="color: var(--primary-color); text-decoration: none;">
                                             {{donation.project.title|truncatewords:2}}
                                         </a>
                                     </td>
