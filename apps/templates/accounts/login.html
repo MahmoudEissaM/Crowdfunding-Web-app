@@ -2,81 +2,189 @@
 
 {% block title %} Sign IN {% endblock title %}
 
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<style>
+  :root {
+    --primary-color: #00796b;
+    --primary-dark: #004d40;
+    --accent-color: #26a69a;
+    --text-dark: #263238;
+    --text-light: #eceff1;
+    --background-light: #f5f5f5;
+    --shadow-color: rgba(0, 121, 107, 0.1);
+    --signup-color: #2196f3;
+    --reset-color: #e91e63;
+  }
+
+  .page-header {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .card-plain {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px var(--shadow-color);
+  }
+
+  .card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .card-header h4 {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-control {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem var(--shadow-color);
+  }
+
+  .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--shadow-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  }
+
+  .text-primary {
+    color: var(--primary-color) !important;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .illustration-section {
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+    border-radius: 12px;
+    padding: 3rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .illustration-section img {
+    max-width: 80%;
+    height: auto;
+  }
+
+  .card-footer .text-muted {
+    color: #666 !important;
+  }
+
+  .signup-link {
+    color: var(--signup-color) !important;
+    text-decoration: none;
+    font-weight: 500;
+    background: none;
+    -webkit-text-fill-color: initial;
+  }
+
+  .reset-link {
+    color: var(--reset-color) !important;
+    text-decoration: none;
+    font-weight: 500;
+    background: none;
+    -webkit-text-fill-color: initial;
+  }
+
+  .signup-link:hover, .reset-link:hover {
+    text-decoration: underline;
+  }
+</style>
+{% endblock stylesheets %}
 
 {% block body_class %} sign-in-illustration {% endblock body_class %}
 
 {% block content %}
-
 <section>
-  <div class="page-header section-height-100">
+  <div class="page-header">
     <div class="container">
       <div class="row">
         <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
-          <div class="card card-plain">
-            <div class="card-header pb-0 text-left">
-              <h4 class="font-weight-bolder">Sign In</h4>
-              <p class="mb-0">
-                {% if msg %}
-              <div class="alert alert-warning ">
+          <div class="card-plain">
+            <div class="card-header">
+              <h4>Sign In</h4>
+              {% if msg %}
+              <div class="alert alert-warning">
                 {{ msg | safe }}
               </div>
               {% else %}
-              Add your credentials
+              <p class="text-muted">Add your credentials</p>
               {% endif %}
-              </p>
             </div>
             <div class="card-body">
-
               <form method="post" role="form">
-
                 {% csrf_token %}
-
                 <div class="mb-3">
                   {{ login_form.email }}
                 </div>
                 <div class="mb-3">
                   {{ login_form.password }}
                 </div>
-                <div class="form-check form-switch">
+                <div class="form-check form-switch mb-3">
                   <input class="form-check-input" type="checkbox" id="rememberMe">
-                  <label class="form-check-label" for="rememberMe">Remember me</label>
+                  <label class="form-check-label text-muted" for="rememberMe">Remember me</label>
                 </div>
                 <div class="text-center">
-                  <button type="submit" name="login" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Sign
-                    in</button>
+                  <button type="submit" name="login" class="btn btn-primary">
+                    Sign in
+                  </button>
                 </div>
               </form>
             </div>
-            <div class="card-footer text-center pt-0 px-lg-2 px-1">
-              <p class="mb-4 text-sm mx-auto">
-                Don't have an account?
-                <a href="{% url 'register' %}" class="text-primary text-gradient font-weight-bold">Sign UP</a>
+            <div class="card-footer text-center mt-4">
+              <p class="mb-2">
+                <span class="text-muted">Don't have an account?</span>
+                <a href="{% url 'register' %}" class="signup-link">Sign Up</a>
               </p>
-              <p class="mb-4 text-sm mx-auto">
-                Forget Your Password?
-                <a class="text-primary text-gradient font-weight-bold" href="{% url 'emailReset'  %}">Reset Passowrd</a>
+              <p class="mb-0">
+                <span class="text-muted">Forgot Your Password?</span>
+                <a href="{% url 'emailReset' %}" class="reset-link">Reset Password</a>
               </p>
-
             </div>
           </div>
         </div>
-        <div
-          class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-          <div
-            class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
-            <img src="/static/assets/img/shapes/pattern-lines.svg" alt="pattern-lines"
-              class="position-absolute opacity-4 start-0">
-            <div class="position-relative">
-              <img class="max-width-500 w-100 position-relative z-index-2"
-                src="/static/assets/img/illustrations/chat.png">
-            </div>
+        <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
+          <div class="illustration-section">
+            <img src="/static/assets/img/illustrations/chat.png" alt="illustration" class="img-fluid">
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
 {% endblock content %}

@@ -10,10 +10,43 @@
 }
 
 .profile-nav .user-heading {
+    background: linear-gradient(135deg, #2557a7 0%, #1a3f7d 100%);
     color: #fff;
-    border-radius: 4px 4px 0 0;
+    border-radius: 12px 12px 0 0;
     padding: 30px;
     text-align: center;
+    box-shadow: 0 4px 20px rgba(37, 87, 167, 0.15);
+}
+
+.profile-nav .user-heading img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.profile-nav .user-heading img:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.profile-nav .user-heading h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem;
+}
+
+.profile-nav .user-heading p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.profile-nav ul {
+    background: #fff;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 20px rgba(37, 87, 167, 0.1);
 }
 
 .profile-nav ul>li {
@@ -27,14 +60,42 @@
 .profile-nav ul>li>a {
     border-radius: 0;
     -webkit-border-radius: 0;
-    color: #89817f;
-    border-left: 5px solid #fff;
-    padding-left: 15px;
+    color: #2557a7;
+    border-left: 5px solid transparent;
+    padding: 15px 20px;
+    display: block;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
-.profile-nav ul>li:hover,
-.profile-nav ul>li:focus,
-.profile-nav ul li.active {
-    border-left: 5px solid rgb(203, 12, 159);
-    color: #89817f !important;
+.profile-nav ul>li>a i {
+    margin-right: 10px;
+    color: #2557a7;
+    width: 20px;
+    text-align: center;
+}
+
+.profile-nav ul>li:hover>a,
+.profile-nav ul>li:focus>a,
+.profile-nav ul li.active>a {
+    background: #e8f0fe;
+    border-left-color: #2557a7;
+    color: #2557a7;
+}
+
+.profile-nav .social-links {
+    padding: 15px 0;
+}
+
+.profile-nav .social-links a {
+    color: #fff;
+    font-size: 1.1rem;
+    margin: 0 10px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.profile-nav .social-links a:hover {
+    opacity: 1;
+    transform: translateY(-2px);
 }

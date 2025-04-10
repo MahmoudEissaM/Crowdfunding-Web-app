@@ -6,6 +6,233 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="../../static/assets/css/project-details.css">
 <link rel="stylesheet" href="../../static/assets/css/rate.css">
+<style>
+  :root {
+    --primary-color: #2557a7;
+    --primary-dark: #1a3f7d;
+    --accent-color: #14a800;
+    --text-dark: #333;
+    --text-light: #666;
+    --background-light: #f8f9fa;
+    --shadow-color: rgba(37, 87, 167, 0.1);
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .project-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .project-header h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .carousel {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px var(--shadow-color);
+  }
+
+  .carousel-item {
+    height: 500px;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .carousel-indicators button {
+    background-color: var(--primary-color);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 5px;
+  }
+
+  .project-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 20px var(--shadow-color);
+  }
+
+  .project-content h5 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .project-content p {
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  .project-meta {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 1rem 0;
+  }
+
+  .tags_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+
+  .tags_container a {
+    background: var(--background-light);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .tags_container a:hover {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .donate-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px var(--shadow-color);
+  }
+
+  .donate-card h3 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .progress {
+    height: 8px;
+    border-radius: 4px;
+    margin: 1rem 0;
+  }
+
+  .progress-bar {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  }
+
+  .stats-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 1.5rem 0;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-value {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  .stat-label {
+    color: var(--text-light);
+    font-size: 0.9rem;
+  }
+
+  .btn-donate {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .btn-donate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--shadow-color);
+  }
+
+  .rate {
+    margin-top: 1.5rem;
+  }
+
+  .comments-section {
+    margin-top: 3rem;
+  }
+
+  .comment-form textarea {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .comment-form button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .comment-form button:hover {
+    background: var(--primary-dark);
+  }
+
+  .related-projects {
+    margin-top: 3rem;
+  }
+
+  .related-projects h4 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+
+  .related-project-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px var(--shadow-color);
+    transition: transform 0.3s ease;
+  }
+
+  .related-project-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .related-project-image {
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .related-project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .related-project-title {
+    padding: 1rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-align: center;
+  }
+</style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -19,283 +246,181 @@
 <div class="container">
   <div class="row">
     <div class="py-4 mx-auto mt-5">
-      <div class="col-lg-12 mx-auto d-flex justify-content-center flex-column">
-        <div class="d-flex justify-content-center p-5 flex-column">
-          <h2 class="mb-5">{{ project.title|title }}</h2>
-          <div class="card card-plain d-flex flex-row justify-content-between">
-            <!-- Project Details On Left -->
-            <div class="col-md-7">
-              <div id="carouselExampleIndicators" class="carousel slide w-100" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+      <div class="col-lg-12 mx-auto">
+        <div class="project-header">
+          <h2>{{ project.title|title }}</h2>
+        </div>
+        <div class="row">
+          <!-- Project Details On Left -->
+          <div class="col-md-7">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
                   aria-current="true" aria-label="Slide 1"></button>
-                  {%for image in counter %}
-                 
-                  
-                  <button type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide-to="{{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
-                    
-                  {%endfor%}
-                </div>
-
-                <div class="carousel-inner">
-                  {%for image in project_images%}
-                  {%if forloop.counter == 1 %}
-                  <div class="carousel-item active" style="height:400px">
-                    <img src="{{image.images.url}}" class="d-block w-100 h-100 rounded" alt="project-image">
-                  </div>
-                  {%else%}
-                  <div class="carousel-item " style="height:400px">
-                    <img src="{{image.images.url}}" class="d-block w-100 h-100 rounded" alt="project-image">
-                  </div>
-                  {%endif%}
-                  {%endfor%}
-
-                </div>
-
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
+                {%for image in counter %}
+                <button type="button" data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide-to="{{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
+                {%endfor%}
               </div>
 
-              <h5 class="mt-5">What The Funds Are For:</h5>
-              <p>
-                {{ project.details}}
-              </p>
-              <p class=" text-secondary"><span class="text-sm text-dark">from: </span>{{ project.start_time }} <span class="text-sm text-dark"> to: </span>{{ project.end_time }}</p>
+              <div class="carousel-inner">
+                {%for image in project_images%}
+                <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                  <img src="{{image.images.url}}" class="d-block w-100" alt="project-image">
+                </div>
+                {%endfor%}
+              </div>
 
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+
+            <div class="project-content">
+              <h5>What The Funds Are For:</h5>
+              <p>{{ project.details }}</p>
+              <div class="project-meta">
+                <span class="text-sm">from: </span>{{ project.start_time }}
+                <span class="text-sm"> to: </span>{{ project.end_time }}
+              </div>
 
               <div class="tags_container">
                 {%for tag in tags%}
-                <a href="{% url 'get_tag' tag.id%}" class="bg-light py-1 px-2 rounded">{{ tag }}</a>
+                <a href="{% url 'get_tag' tag.id%}">{{ tag }}</a>
                 {% endfor %}
               </div>
+            </div>
 
-              <hr class="my-4" />
-
-              <!-- Related Projects -->
-              <h4 class="">Related Project:</h4>
-              <div class="col-md-12 d-flex justify-content-around py-3 flex-wrap">
+            <!-- Related Projects -->
+            <div class="related-projects">
+              <h4>Related Projects</h4>
+              <div class="row">
                 {% for related_project in related_projects %}
-                <div class="col-md-5 card p-3 mt-2">
-                  <a href="{% url 'show_project' related_project.id%}">
-                    <div style="height:150px">
-                      <img src="{{ images|index:forloop.counter0 }}" alt="project-img" class="img-fluid rounded"
-                        style="height: inherit; width: 100%;">
+                <div class="col-md-6 mb-4">
+                  <div class="related-project-card">
+                    <div class="related-project-image">
+                      <a href="{% url 'show_project' related_project.id%}">
+                        <img src="{{ images|index:forloop.counter0 }}" alt="project-img">
+                      </a>
                     </div>
-                  </a>
-                  <a href="{% url 'show_project' related_project.id%}" class="text-dark">
-                    <h6 class="my-3 text-center">{{ related_project.title|title }}</h6>
-                  </a>
+                    <div class="related-project-title">
+                      <a href="{% url 'show_project' related_project.id%}" class="text-decoration-none">
+                        {{ related_project.title|title }}
+                      </a>
+                    </div>
+                  </div>
                 </div>
                 {% endfor %}
               </div>
-              <hr class="my-5" />
+            </div>
 
-              <!-- Comments -->
-              <h5 class="mt-5">Comments ({{ comments|length }}) :</h5>
-              <ul class="list-unstyled mt-4">
-                {%for comment in comments%}
-                <li class="">
-                  <div class="comment d-flex">
-                    <div class="col-md-1">
-                      <img class="rounded-circle img-thumbnail" src="{{ comment.user.profile_img.url }}" style="width: 60px;height:60px;"/>
-                    </div>
-                    <div class="col-md-8 mx-3">
-                      <h6 class="comment-header mb-0 d-flex">
-                        {{ comment.user|title }}
-                        <div class="">
-                          <!-- Report Comment -->
-                          <form action="{% url 'create_comment_report' comment.id %}" method="POST" class="mx-3">
-                            {%csrf_token%}
-                            <button type="submit" class="btn btn-transparent shadow-none text-center mt-2 p-0"><i
-                                class="fa-solid fa-flag"></i>
-                              Report</button>
-                          </form>
-                        </div>
-                      </h6>
-
-                      <p class="comment-time">
-                        <small><small>{{ comment.created_at }}</small></small>
-                      </p>
-                      <p class="comment-content">
-                        {{comment.comment}}
-                      </p>
-
-                      <p>
-                        <a class="text-decoration-underline text-secondary" data-toggle="collapse"
-                          href="#collapseExample{{ forloop.counter }}add_replies" role="button" aria-expanded="false"
-                          aria-controls="collapseExample"><small>reply</small></a>
-
-                        <a class="text-decoration-underline text-secondary" data-toggle="collapse"
-                          href="#collapseExample{{ forloop.counter }}show_replies" role="button" aria-expanded="false"
-                          aria-controls="collapseExample"><small>show replies</small></a>
-                      </p>
-
-                      <div class="collapse" id="collapseExample{{ forloop.counter }}add_replies">
-                        {%for fields in reply_form%}
-                        <form class="d-flex flex-column align-items-end" method="post"
-                          action="{% url 'create_comment_reply' comment.id %}">
-                          {% csrf_token %}
-                          <textarea id="" name="{{fields.name}}" rows="2" class="col-md-12 form-control"></textarea>
-                          <button type="submit" class="btn bg-gradient-light w-20 mt-2">
-                            reply
-                          </button>
-                        </form>
-                        {%endfor%}
-                      </div>
-
-                      <div class="collapse" id="collapseExample{{ forloop.counter }}show_replies">
-                        <hr class="my-0" />
-                        <ul class="list-unstyled mt-1">
-                          {%for reply in replies%}
-                          {%if reply.comment_id == comment.id %}
-                          <li class=" mt-1">
-                            <div class="comment d-flex">
-                              <div class="col-md-1">
-                                <img class="rounded-circle img-thumbnail" src="{{ reply.user.profile_img.url }}"  style="width: 40px;height:40px;" />
-                              </div>
-                              <div class="col-md-8 mx-3">
-                                <h6 class="comment-header mb-0">
-                                  {{ reply.user|title }}
-                                </h6>
-                                <p class="comment-time">
-                                  <small><small>{{ reply.created_at }}</small></small>
-                                </p>
-                                <p class="comment-content">
-                                  {{reply.reply}}
-                                </p>
-                              </div>
-                            </div>
-                          </li>
-                          {%else%}
-                          {%endif%}
-                          {%endfor%}
-                        </ul>
-                      </div>
+            <!-- Comments -->
+            <div class="comments-section">
+              <h5>Comments ({{ comments|length }}):</h5>
+              <ul class="list-unstyled">
+                {% for comment in comments %}
+                <li class="mb-4">
+                  <div class="d-flex align-items-center mb-2">
+                    <img src="{{ comment.user.profile_img.url }}" alt="user"
+                      class="avatar avatar-sm rounded-circle me-2">
+                    <div>
+                      <h6 class="mb-0">{{ comment.user.first_name }} {{ comment.user.last_name }}</h6>
+                      <small class="text-muted">{{ comment.created_at|date:"M d, Y" }}</small>
                     </div>
                   </div>
-                  <hr />
+                  <p class="mb-2">{{ comment.comment }}</p>
                 </li>
-                {%endfor%}
-
-                <hr />
-
-                <form class="d-flex flex-column align-items-end" method="post"
-                  action="{% url 'create_comment' project.id %}">
-                  {% csrf_token %}
-                  <textarea id="" name="comment" rows="2" class="col-md-12 form-control"></textarea>
-                  <button type="submit" class="btn bg-gradient-light w-20 mt-2">
-                    Comment
-                  </button>
-                </form>
+                {% endfor %}
               </ul>
 
+              <div class="comment-form">
+                <form method="post" action="{% url 'create_comment' project.id %}">
+                  {% csrf_token %}
+                  <textarea name="comment" rows="2" class="form-control" placeholder="Write a comment..."></textarea>
+                  <button type="submit" class="btn">Comment</button>
+                </form>
+              </div>
             </div>
-            <!-- Donate Card On Right -->
-            <div class="card col-md-4 shadow-lg py-4 h-100 position-sticky" style="top: 6rem">
+          </div>
 
-              <div class="col-lg-10 mx-auto">
-                <h3 class="d-flex align-items-baseline">
-                  {{ donation }} <small> L.E. </small>
-                  <span class="text-secondary mx-2">
-                    <p>raised of {{ project.total_target }} L.E. goal</p>
-                  </span>
-                </h3>
-                <!-- {{ donation_average }} -->
-                <div class="progress mb-3">
-                  <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ donation }}"
-                    aria-valuemin="0" aria-valuemax="{{ project.total_target }}" style="width:{{ donation_average }}%">
-                  </div>
+          <!-- Donate Card On Right -->
+          <div class="col-md-5">
+            <div class="donate-card position-sticky" style="top: 2rem">
+              <h3 class="d-flex align-items-baseline">
+                {{ donation }} <small class="ms-1">L.E.</small>
+                <span class="text-secondary mx-2">
+                  <p class="mb-0">raised of {{ project.total_target }} L.E. goal</p>
+                </span>
+              </h3>
+
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{ donation }}"
+                  aria-valuemin="0" aria-valuemax="{{ project.total_target }}" style="width:{{ donation_average }}%">
                 </div>
+              </div>
 
-                <div class="d-flex justify-content-between py-3">
-                  <div class="d-flex flex-column align-items-center">
-                    <span>{{ donations }}</span>
-                    <span>Donations</span>
+              <div class="stats-container">
+                <div class="stat-item">
+                  <div class="stat-value">{{ donations }}</div>
+                  <div class="stat-label">Donations</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">{{ average_rating|floatformat:1 }}</div>
+                  <div class="stat-label">Rating</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">
+                    {% if days <= 0 %}0{% else %}{{ days }}{% endif %}
                   </div>
-                  <div class="d-flex flex-column align-items-center">
-                    <span>{{ average_rating|floatformat:1 }}</span>
-                    <span>
-                        <svg viewBox="0 0 1000 200" class="rating m-0">
-                          <defs>
-                            <polygon id="star" points="100,0 131,66 200,76 150,128 162,200 100,166 38,200 50,128 0,76 69,66 " />                    
-                            <clipPath id="stars">
-                              <use xlink:href="#star" />
-                              <use xlink:href="#star" x="20%" />
-                              <use xlink:href="#star" x="40%" />
-                              <use xlink:href="#star" x="60%" />
-                              <use xlink:href="#star" x="80%" />
-                            </clipPath>
-                          </defs>                    
-                          <rect class="rating_background" clip-path="url(#stars)"></rect>
-                          <rect width="{{rating}}%" class="rating_value" clip-path="url(#stars)"></rect>
-                        </svg>
-                    </span>
-                  </div>
-                  <div class="d-flex flex-column align-items-center">
-                    {% if days <= 0 %}
-                      <span> 0 </span>
-                    {% else %}
-                      <span> {{ days }} </span>
-                    {% endif %}
-                      <span>Days to go</span>
-                  </div>
+                  <div class="stat-label">Days to go</div>
                 </div>
               </div>
 
               {% if project.user == user %}
-                  <button data-bs-toggle="modal" data-bs-target="#deleteModal" class="col-md-10 btn bg-gradient-primary p-2 mt-4 mx-auto h6" {% if donation > check_target %}disabled{% endif %}><i class="fa-solid fa-trash"></i><small class="mx-2">Cancel Project</small></button>
+                <button data-bs-toggle="modal" data-bs-target="#deleteModal" 
+                  class="btn-donate" {% if donation > check_target %}disabled{% endif %}>
+                  <i class="fa-solid fa-trash me-2"></i>Cancel Project
+                </button>
                 {% if donation > check_target %}
-                  <div class="d-flex align-items-center w-75 mx-auto">
-                    <i class="fa fa-circle-info text-secondary"></i>
-                    <p class="mx-2 text-sm mb-0 text-center">
-                    Cannot cancel project while donation greater than 25% of the total target !!
-                    </p>
-                  </div>
+                <div class="alert alert-warning mt-3">
+                  <i class="fa fa-circle-info me-2"></i>
+                  Cannot cancel project while donation greater than 25% of the total target!
+                </div>
                 {% endif %}
               {% else %}
-
-                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" {% if days < 0 %}disabled{% endif %} class="col-md-10 btn bg-gradient-primary p-2 mt-4 mx-auto h6" href="{%url 'create_project'%}">
-                  <b>DONATE</b>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+                  {% if days < 0 %}disabled{% endif %} class="btn-donate">
+                  DONATE NOW
                 </button>
 
-                <div class="feedback d-flex flex-column align-items-center">
+                <div class="rate text-center">
                   <form method="post" action="{% url 'project_rate' project.id %}">
                     {% csrf_token %}
                     <div class="rate">
                       {% for level in rating_range %}
-                      {% if user_rating == level %}
-                      <input type="radio" name="rate" id="rate-{{level}}" value="{{level}}" checked>
-                      {% else %}
-                      <input type="radio" name="rate" id="rate-{{level}}" value="{{level}}">
-                      {% endif %}
+                      <input type="radio" name="rate" id="rate-{{level}}" value="{{level}}"
+                        {% if user_rating == level %}checked{% endif %}>
                       <label for="rate-{{level}}"></label>
                       {% endfor %}
                     </div>
-                    <div class="text-center">
-                      <button class="btn mt-3 p-2 w-100 text-primary" role="button">Rate</button>
-                    </div>
+                    <button class="btn btn-sm btn-outline-primary mt-3">Rate Project</button>
                   </form>
                 </div>
 
-                <form action="{% url 'create_report' project.id %}" method="POST" class="text-center">
-                  {%csrf_token%}
-                  <button class="btn btn-transparent shadow-none text-center mt-2 p-0" href="{%url 'create_project'%}"><i
-                      class="fa-solid fa-flag"></i><small class="mx-2">Report this project</small>
+                <form action="{% url 'create_report' project.id %}" method="POST" class="text-center mt-3">
+                  {% csrf_token %}
+                  <button class="btn btn-link text-danger">
+                    <i class="fa-solid fa-flag me-2"></i>Report this project
                   </button>
                 </form>
-
               {% endif %}
-
-
             </div>
           </div>
         </div>

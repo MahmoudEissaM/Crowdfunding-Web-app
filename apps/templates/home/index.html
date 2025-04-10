@@ -3,217 +3,370 @@
 
 {% block title %} Home Page {%endblock title %}
 
-<!-- Specific CSS goes HERE -->
 {% block stylesheets %}
 <style>
+  :root {
+    --primary-color: #2557a7;
+    --primary-light: #e8f0fe;
+    --accent-color: #14a800;
+    --text-dark: #1e1e1e;
+    --text-light: #ffffff;
+    --background-light: #ffffff;
+    --background-dark: #f2f7ff;
+    --border-color: #e4e5e7;
+  }
+
+  /* Hero Section Styles */
+  .header-2 {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #myCarousel {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+  }
+
+  .carousel-inner {
+    width: 100%;
+    height: 70vh;
+    min-height: 400px;
+    max-height: 600px;
+  }
+
+  .carousel-item {
+    height: 100%;
+  }
+
   .featuredProject-image {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
+    width: 100%;
+    height: 100%;
     background-position: center;
+    background-size: cover;
     background-repeat: no-repeat;
+    position: relative;
   }
 
   .featuredProject-image:after {
+    content: "";
     position: absolute;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85));
-    content: "";
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
   }
 
   .carousel-caption {
-    bottom: 45%;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .carousel-caption h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+  }
+
+  .carousel-caption p {
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease 0.2s forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .carousel-indicators {
-    bottom: 20%;
+    bottom: 40px;
   }
 
-  #featured .card.card-background.card-background-mask-primary::after {
-    background: #000 !important;
+  .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 6px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
   }
 
-  .card.card-background.card-background-mask-primary::after {
-    background: #000 !important;
+  .carousel-indicators button.active {
+    background-color: var(--text-light);
+    transform: scale(1.2);
   }
 
-  .text-gradient.text-primary {
-    background-image: none !important;
-    color: #000 !important;
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 5%;
+    opacity: 0;
+    transition: all 0.3s ease;
   }
 
-  .card.card-background .card-body {
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    background-size: 50%;
+  }
+
+  #myCarousel:hover .carousel-control-prev,
+  #myCarousel:hover .carousel-control-next {
+    opacity: 1;
+  }
+
+  .carousel-item a {
+    text-decoration: none;
+  }
+
+  .carousel-caption .btn {
+    font-size: 1.1rem;
+    padding: 0.8rem 1.8rem;
+    margin-top: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease 0.4s forwards;
+  }
+
+  /* Stats Section Styles */
+  .stats-section {
+    background: var(--background-light);
+    padding: 4rem 0;
+    margin-top: 3rem;
+  }
+
+  .stats-card {
+    background: var(--background-light);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(37, 87, 167, 0.1);
+    padding: 2rem;
+  }
+
+  .stats-card h3 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .stats-card h5 {
+    color: var(--text-dark);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stats-card p {
+    color: var(--text-dark);
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+
+  /* Projects Section Styles */
+  .projects-section {
+    background: var(--background-dark);
+    padding: 5rem 0;
+    margin-top: 3rem;
+  }
+
+  .card.card-background {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    background: var(--primary-color) !important;
+  }
+
+  .card-background .full-background {
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .card-background .card-body {
     position: relative;
     z-index: 2;
-    padding-top: 45px;
-    padding-bottom: 45px;
-    background: rgba(0, 0, 0, 0.9) !important;
+    padding: 2rem;
   }
 
-  .btn.bg-gradient-primary {
-    background: #000 !important;
-    border: none;
+  .card-background h2 {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
   }
 
-  .btn.bg-gradient-primary:hover {
-    background: #333 !important;
+  .card-background ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem 0;
+  }
+
+  .card-background ul li {
+    margin-bottom: 1rem;
+  }
+
+  .card-background ul li a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+  }
+
+  .card-background ul li a:hover {
+    opacity: 0.8;
+  }
+
+  .btn-outline-white {
+    color: var(--text-light);
+    border: 2px solid var(--text-light);
+    border-radius: 25px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
   }
 
   .btn-outline-white:hover {
-    background: #333 !important;
-    color: white !important;
+    background: var(--text-light);
+    color: var(--primary-color);
   }
 
-  .btn {
-    background: #000 !important;
-    color: white !important;
+  /* Create Project Section */
+  .create-project-section {
+    background: var(--background-light);
+    padding: 4rem 0;
+    margin-top: 3rem;
+    text-align: center;
   }
 
-  .btn:hover {
-    background: #333 !important;
-    color: white !important;
+  .create-project-section .btn {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+  }
+
+  .create-project-section .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
 </style>
 {% endblock stylesheets %}
 
 {% block body_class %} index-page {% endblock body_class %}
 
-
 {% block content %}
 
-<!-- slider -->
-
+<!-- Hero Section -->
 <header class="header-2">
-  <div class="page-header section-height-75 relative">
-    <div class="col-md-12 p-0">
-      <div class="row">
-        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-          <!-- Indicators -->
-          <ol class="carousel-indicators">
-            <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
-            <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
-            <li data-bs-target="#myCarousel" data-bs-slide-to="2"></li>
-            <li data-bs-target="#myCarousel" data-bs-slide-to="3"></li>
-            <li data-bs-target="#myCarousel" data-bs-slide-to="4"></li>
-          </ol>
+  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
+      <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
+      <li data-bs-target="#myCarousel" data-bs-slide-to="2"></li>
+      <li data-bs-target="#myCarousel" data-bs-slide-to="3"></li>
+      <li data-bs-target="#myCarousel" data-bs-slide-to="4"></li>
+    </ol>
 
-          <!-- Wrapper for slides -->
-          <div class="carousel-inner">
-
-            {%for project in highest_rated_projects%}
-
-            <div class="carousel-item {% if forloop.first %}active{%endif%}">
-              <div class="featuredProject-image section-height-75 relative" style="
-                        background-image: url('{{ images|index:forloop.counter0 }}');
-                        background-size: cover;
-                      "></div>
-              <div class="carousel-caption d-none d-md-block">
-                <a href="{% url 'show_project' project.id %}">
-                  <h3 class="text-light font-weight-bolder">{{ project.title|title }}</h3>
-                  <p class="w-75 mx-auto text-uppercase text-light">Click and start donating now</p>
-                </a>
-              </div>
-            </div>
-
-            {%endfor%}
-
-          </div>
-
-          <!-- Left and right controls -->
-          <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      {%for project in highest_rated_projects%}
+      <div class="carousel-item {% if forloop.first %}active{%endif%}">
+        <div class="featuredProject-image" style="background-image: url('{{ images|index:forloop.counter0 }}');"></div>
+        <div class="carousel-caption d-none d-md-block">
+          <a href="{% url 'show_project' project.id %}">
+            <h3>{{ project.title|title }}</h3>
+            <p>Click and start donating now</p>
+            <button class="btn btn-outline-white">Donate Now</button>
+          </a>
         </div>
       </div>
+      {%endfor%}
     </div>
-    <div class="position-absolute w-100 z-index-1 bottom-0">
-      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-        viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
-        <defs>
-          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-        </defs>
-        <g class="moving-waves">
-          <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.40" />
-          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.35)" />
-          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.25)" />
-          <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.20)" />
-          <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.15)" />
-          <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0.95" />
-        </g>
-      </svg>
-    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
 </header>
 
-<!-- Counter -->
-<section class="pt-3 pb-4" id="count-stats">
+<!-- Stats Section -->
+<section class="stats-section">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-9 z-index-2 border-radius-xl mt-n8 mx-auto py-3 blur shadow-blur">
-        <div class="row">
-          <div class="col-md-4 position-relative">
-            <div class="p-3 text-center">
-              <h3 class="text-black">
-                <span id="state1" countTo="{{ donors_count }}" style="color: black;"></span>+
-              </h3>
-              <h5 class="mt-3" style="color: black;">Donors</h5>
-              <p class="text-sm" style="color: black;">
-                People of different ages are welcome to donate
-              </p>
-            </div>
-            <hr class="vertical dark" />
-          </div>
-          <div class="col-md-4 position-relative">
-            <div class="p-3 text-center">
-              <h3 class="text-black">
-                <span id="state2" countTo="{{ projects_count }}" style="color: black;"></span>+
-              </h3>
-              <h5 class="mt-3" style="color: black;">Projects</h5>
-              <p class="text-sm" style="color: black;">Various Projects that deserve to be donated</p>
-            </div>
-            <hr class="vertical dark" />
-          </div>
-          <div class="col-md-4">
-            <div class="p-3 text-center">
-              <h3 class="text-black">
-                <span id="state3" countTo="{{ reviews_count }}" style="color: black;"></span>+
-              </h3>
-              <h5 class="mt-3" style="color: black;">Reviews</h5>
-              <p class="text-sm" style="color: black;">Feel free to rate projects and give us a feedback</p>
-            </div>
-          </div>
+    <div class="stats-card">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <h3><span id="state1" countTo="{{ donors_count }}"></span>+</h3>
+          <h5>Donors</h5>
+          <p>People of different ages are welcome to donate</p>
+        </div>
+        <div class="col-md-4">
+          <h3><span id="state2" countTo="{{ projects_count }}"></span>+</h3>
+          <h5>Projects</h5>
+          <p>Various Projects that deserve to be donated</p>
+        </div>
+        <div class="col-md-4">
+          <h3><span id="state3" countTo="{{ reviews_count }}"></span>+</h3>
+          <h5>Reviews</h5>
+          <p>Feel free to rate projects and give us a feedback</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- List Projects -->
-<section class="my-5 py-5">
+<!-- Projects Section -->
+<section class="projects-section">
   <div class="container">
-    <div class="row align-items-center">
+    <div class="row">
       <!-- Latest Projects -->
-      <div class="col-lg-6 ms-auto me-auto p-lg-2 mt-lg-0 mt-4">
-        <div class="card card-background card-background-mask-primary tilt" data-tilt style="background: #000 !important;">
-          <div class="full-background" style="
-              background-image: url('https://images.unsplash.com/photo-1579389083395-4507e98b5e67?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80');
-              opacity: 0.6;
-            "></div>
-          <div class="card-body pt-5 text-center">
-            <h2 class="text-white up mb-4">
-              <i class="fa-solid fa-list-check mx-3"></i>Latest Projects
+      <div class="col-lg-6 mb-4">
+        <div class="card card-background">
+          <div class="full-background" style="background-image: url('https://images.unsplash.com/photo-1579389083395-4507e98b5e67?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80');"></div>
+          <div class="card-body">
+            <h2 class="text-white up">
+              <i class="fa-solid fa-list-check me-2"></i>Latest Projects
             </h2>
             <ul class="text-left">
               {%for project in latest_5_projects%}
               <li>
-                <a href="{% url 'show_project' project.id %}" class="text-light font-weight-bold">
+                <a href="{% url 'show_project' project.id %}">
                   {{ project.title|title }}
                 </a>
               </li>
@@ -221,26 +374,23 @@
               <h5 class="text-light text-center">No Projects Found</h5>
               {%endfor%}
             </ul>
-            <a href="{%url 'all_projects'%}" class="btn btn-outline-white mt-3 btn-round">View All</a>
+            <a href="{%url 'all_projects'%}" class="btn btn-outline-white">View All</a>
           </div>
         </div>
       </div>
 
       <!-- Featured Projects -->
-      <div id="featured" class="col-lg-6 ms-auto me-auto p-lg-2 mt-lg-0 mt-4">
-        <div class="card card-background card-background-mask-primary tilt" data-tilt style="background: #000 !important;">
-          <div class="full-background" style="
-              background-image: url('../../static/assets/img/featured.jpg');
-              opacity: 0.6;
-            "></div>
-          <div class="card-body pt-5 text-center">
-            <h2 class="text-white up mb-4">
-              <i class="fa-solid fa-lightbulb mx-3"></i>Featured Projects
+      <div class="col-lg-6 mb-4">
+        <div class="card card-background">
+          <div class="full-background" style="background-image: url('../../static/assets/img/featured.jpg');"></div>
+          <div class="card-body">
+            <h2 class="text-white up">
+              <i class="fa-solid fa-lightbulb me-2"></i>Featured Projects
             </h2>
             <ul class="text-left">
               {%for project in featured_projects%}
               <li>
-                <a href="{% url 'show_project' project.id %}" class="text-light font-weight-bold">
+                <a href="{% url 'show_project' project.id %}">
                   {{ project.title|title }}
                 </a>
               </li>
@@ -248,68 +398,45 @@
               <h5 class="text-light text-center">No Featured Projects</h5>
               {%endfor%}
             </ul>
-            <a href="{% url 'featured_projects' %}" class="btn btn-outline-white mt-3 btn-round">View All</a>
+            <a href="{% url 'featured_projects' %}" class="btn btn-outline-white">View All</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-<section class="py-3 mt-3">
+
+<!-- Create Project Section -->
+<section class="create-project-section">
   <div class="container">
-    <div class="row justify-space-between text-center py-2">
-      <div class="col-12 mx-auto">
-        <a class="btn bg-dark w-auto me-2 p-3 text-light" href="{% url 'create_project'%}">Create your own
-          <b>Project</b></a>
-      </div>
-    </div>
+    <a class="btn bg-dark" href="{% url 'create_project'%}">
+      Create your own <b>Project</b>
+    </a>
   </div>
 </section>
+
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-
 <script src="/static/assets/js/plugins/countup.min.js"></script>
 <script src="/static/assets/js/plugins/tilt.min.js"></script>
 
-<!-- Counters Script -->
 <script type="text/javascript">
   if (document.getElementById("state1")) {
-    const countUp = new CountUp(
-      "state1",
-      document.getElementById("state1").getAttribute("countTo")
-    );
-    if (!countUp.error) {
-      countUp.start();
-    } else {
-      console.error(countUp.error);
-    }
+    const countUp = new CountUp("state1", document.getElementById("state1").getAttribute("countTo"));
+    if (!countUp.error) countUp.start();
+    else console.error(countUp.error);
   }
   if (document.getElementById("state2")) {
-    const countUp1 = new CountUp(
-      "state2",
-      document.getElementById("state2").getAttribute("countTo")
-    );
-    if (!countUp1.error) {
-      countUp1.start();
-    } else {
-      console.error(countUp1.error);
-    }
+    const countUp1 = new CountUp("state2", document.getElementById("state2").getAttribute("countTo"));
+    if (!countUp1.error) countUp1.start();
+    else console.error(countUp1.error);
   }
   if (document.getElementById("state3")) {
-    const countUp2 = new CountUp(
-      "state3",
-      document.getElementById("state3").getAttribute("countTo")
-    );
-    if (!countUp2.error) {
-      countUp2.start();
-    } else {
-      console.error(countUp2.error);
-    }
+    const countUp2 = new CountUp("state3", document.getElementById("state3").getAttribute("countTo"));
+    if (!countUp2.error) countUp2.start();
+    else console.error(countUp2.error);
   }
 </script>
-
-<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/gsap.min.js"></script>
 {% endblock javascripts %}
