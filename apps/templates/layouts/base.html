@@ -1,14 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+  
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="apple-touch-icon" sizes="76x76" href="/static/assets/img/apple-icon.png" />
   <link rel="icon" type="image/png" href="/static/assets/img/favicon.png" />
   <link rel="canonical" href="https://appseed.us/ui-kit/soft-ui-design-system" />
-
-
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'assets/css/footer.css' %}">
+    <!-- jQuery, Popper.js, Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
@@ -19,36 +22,68 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
 
+  <title>{% block title %}{% endblock %}</title>
 
-  <title>
-    {% block title %}{% endblock %}
-  </title>
-
-  <!--     Fonts and icons     -->
+  <!-- Fonts and Icons -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-  <!-- Nucleo Icons -->
   <link href="/static/assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="/static/assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
     integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/regular.min.css"
     integrity="sha512-YoxvmIzlVlt4nYJ6QwBqDzFc+2aXL7yQwkAuscf2ZAg7daNQxlgQHV+LLRHnRXFWPHRvXhJuBBjQqHAqRFkcVw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- CSS Files -->
+
+  <!-- Main CSS -->
   <link id="pagestyle" href="/static/assets/css/main.css" rel="stylesheet" />
-  <!-- Specific CSS goes HERE -->
+
+  <!-- Specific CSS -->
   {% block stylesheets %}{% endblock stylesheets %}
 </head>
 
 <body class="{% block body_class %}{% endblock body_class %}">
+
   {% include "includes/navigation.html" %}
-  {% block content %}{% endblock content %}
+
+  {% block content %}
+  {% endblock content %}
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About Us</h3>
+        <p>
+          Crowdfunding is a platform to support innovative projects and ideas. Join us to make a difference!
+        </p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="">About</a></li>
+          <li><a href="">Latest Projects</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Crowdfunding. All rights reserved.</p>
+    </div>
+  </footer>
+
   {% include "includes/scripts.html" %}
 
-  <!-- Specific JS goes HERE -->
+  <!-- Specific JS -->
   {% block javascripts %}{% endblock javascripts %}
+
 </body>
 
 </html>

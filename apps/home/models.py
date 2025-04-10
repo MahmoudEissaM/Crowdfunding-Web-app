@@ -55,7 +55,7 @@ class Project(models.Model):
     is_featured = models.BooleanField(default=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     user = models.ForeignKey(Register, on_delete=models.CASCADE)
-    tag = models.ManyToManyField(Tag,null=True, blank=True)
+    tag = models.ManyToManyField(Tag, blank=True)  # Removed null=True
     created_at = models.DateTimeField(auto_now_add=True)
    
 
