@@ -1,7 +1,8 @@
 # Crowdfunding Web App
 
-A full-stack crowdfunding platform built with **Django** and **React**. Users can create and support crowdfunding projects, manage their profiles, and explore and donate to campaigns created by others.
+A full-stack crowdfunding platform built using **Django** and **Django Templates**. Users can create and support projects, manage their profiles, and explore campaigns created by others — all through a clean and responsive interface.
 
+---
 ## 🚀 Features
 
 - User authentication and authorization
