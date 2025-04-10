@@ -25,10 +25,49 @@
   }
 
   .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
     color: var(--primary-color) !important;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .navbar-brand i {
+    font-size: 2.4rem;
+    color: var(--primary-color) !important;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .navbar-brand span {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+
+  .navbar-brand span::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .navbar-brand:hover span::after {
+    transform: scaleX(1);
   }
 
   /* Navigation Links */
@@ -200,7 +239,8 @@
       <nav class="navbar navbar-expand-lg">
         <div class="container">
           <a class="navbar-brand" href="{% url 'home' %}">
-            Crowdfunding
+            <i class="fas fa-hand-holding-heart"></i>
+            <span>Crowdfunding</span>
           </a>
 
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation">
