@@ -17,7 +17,7 @@ A full-stack crowdfunding platform built with **Django** and **React**. Users ca
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React, Axios, Bootstrap
+- **Frontend**: React,
 - **Backend**: Django, Django REST Framework
 - **Database**: SQLite
 
