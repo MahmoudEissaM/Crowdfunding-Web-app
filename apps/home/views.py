@@ -335,7 +335,7 @@ def donate(request, project_id):
                     user_id=user.id,
                 )
                 return redirect('show_project', project_id)
-        return render(request, "home/project-details.html", project_id , context={"user":user})
+    return render(request, "home/project-details.html", context={"user": user})
 
 
 def create_comment(request, project_id):
@@ -352,7 +352,7 @@ def create_comment(request, project_id):
                     user_id=user.id
                 )
                 return redirect('show_project', project_id)
-        return render(request, "home/project-details.html", project_id , context={"user":user})
+    return render(request, "home/project-details.html", context={"user": user})
 
 
 def add_report(request, project_id):
@@ -405,7 +405,7 @@ def create_comment_reply(request, comment_id):
                     user_id=user.id
                 )
                 return redirect('show_project', project.id)
-        return render(request, "home/project-details.html", project.id)
+    return render(request, "home/project-details.html", context={"user": user})
 
 
 def add_category(request):
