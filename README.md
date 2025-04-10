@@ -16,10 +16,47 @@ A full-stack crowdfunding platform built with **Django** and **React**. Users ca
 - **Reham & Nadia** – Projects: create, list, and detail views
 
 ## 🛠️ Tech Stack
+### 🎨 Frontend
 
-- **Frontend**: React,
-- **Backend**: Django, Django REST Framework
-- **Database**: SQLite
+- **Django Templates**  
+  Built-in Django templating engine used to render dynamic HTML pages directly from the backend.
+
+- **HTML5 & CSS3**  
+  Structure and style for the user interface, following modern web standards.
+
+- **Bootstrap**  
+  Frontend framework for responsive design and pre-built UI components (buttons, navbars, grids, etc.).
+
+- **JavaScript (vanilla)**  
+  Used for basic client-side interactivity where needed (e.g., form validation, toggling content).
+
+### 🔙 Backend
+
+- **Django 3.2**  
+  Web framework for building backend APIs with features like ORM, routing, admin interface, and authentication.
+
+- **WhiteNoise**  
+  Helps serve static files (CSS, JS, images) directly from Django, simplifying deployment.
+
+- **Python Decouple**  
+  Manages environment variables and keeps sensitive info like `SECRET_KEY` outside the source code.
+
+- **dj-database-url**  
+  Parses database URLs into Django-compatible database configurations. Useful for deployment setups.
+
+---
+
+### 🧰 Dev Tools & Formatting
+
+- **Unipath**  
+  Simplifies and cleans up file path handling in Python projects.
+
+- **sqlparse**  
+  A SQL formatting library used internally by Django for parsing and pretty-printing SQL statements.
+
+- **Pillow**  
+  Image processing support used for handling uploads like profile pictures or project thumbnails.
+
 
 ## 📦 Installation & Setup
 
