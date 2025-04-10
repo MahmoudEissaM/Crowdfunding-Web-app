@@ -1,7 +1,7 @@
 # from asyncio.windows_events import NULL
 from django import template
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template import loader
 from django.urls import reverse
@@ -13,6 +13,7 @@ from apps.home.models import Category, Comment, Donation, Project, Image, Projec
 from apps.home.forms import Project_Form, Report_form, Reply_form, Category_form
 from django.forms.utils import ErrorList
 from apps.authentication.models import Register
+from django.template import TemplateDoesNotExist
 NULL={}
 
 def getUser(request):
@@ -538,22 +539,11 @@ def cancel_project(request, project_id):
                 
            
 
-def pages(request):  
-    if 'user_id' not in request.session:
-        user = NULL
-    else:
-        user = getUser(request)     
-    context = {}
-    try : 
-        load_template = request.path.split('/')[-1]
-        if load_template == 'admin':
-                return HttpResponseRedirect(reverse('admin:index'))
-        context['segment'] = load_template
-        context['user'] = user
-
-        html_template = loader.get_template('home/' + load_template)
-        return HttpResponse(html_template.render(context, request))
-
-    except template.TemplateDoesNotExist:
-            html_template = loader.get_template('home/page-404.html')
-            return HttpResponse(html_template.render(context, request))
+def pages(request, load_template):  
+    try:
+        # Ensure the template path includes a valid file name
+        html_template = loader.get_template(f'home/{load_template}.html')
+        return HttpResponse(html_template.render({}, request))
+    except TemplateDoesNotExist:
+        # Handle the case where the template does not exist
+        return HttpResponseNotFound("The requested page does not exist.")
