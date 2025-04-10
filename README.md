@@ -23,7 +23,7 @@ A full-stack crowdfunding platform built with **Django** and **React**. Users ca
 
 ## 📦 Installation & Setup
 
-> Clone the repo and set up both backend and frontend locally
+> Clone the repo and set up the project locally
 
 ---
 
