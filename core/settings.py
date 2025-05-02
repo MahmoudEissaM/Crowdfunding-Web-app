@@ -121,8 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 EMAIL_USE_TLS = True  
 EMAIL_HOST = 'smtp.gmail.com'  
-EMAIL_HOST_USER = 'mahmoudessa8200@gmail.com'  
-EMAIL_HOST_PASSWORD = 'xlto apfe vwwz ksda'
+EMAIL_HOST_USER = ''  
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_SSL = False
 EMAIL_BACKEND = 'apps.authentication.email_backend.CustomEmailBackend'
